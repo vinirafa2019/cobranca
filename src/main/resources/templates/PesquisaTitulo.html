@@ -5,8 +5,10 @@
 	layout:decorator="LayoutPadrao">
 <head>
 <title>Pesquisa de Titulos</title>
+<link rel="stylesheet" href="fontawesome-free-5.12.0-web/fontawesome-free-5.12.0-web/css/all.css" type="text/css">
 </head>
 <section layout:fragment="conteudo">
+	<div layout:insert="MensagemGeral"></div>
 <div class="card centralp">
 	<div class="card-header">
 		<h6>Pesquisa titulo</h6>
@@ -33,14 +35,26 @@
 				<span class="badge" th:text="${titulo.status.descricao}"
 					th:classappend="${#strings.toString(titulo.status) == 'PENDENTE' ? 'badge-danger' : 'badge-success'}"></span>
 				</td>
-				<td class="text-center"></td>
+				<td class="text-center">
+					<a class="btn btn-link" th:href="@{/home/{codigo}(codigo=${titulo.codigo})}">
+						<i class="fas fa-pencil-alt"  data-toggle="tooltip" title="Editar"></i>						
+					</a>
+						<a class="btn btn-link" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+							th:attr="data-codigo=${titulo.codigo} , data-descricao=${titulo.descricao}" >
+						<i class="far fa-trash-alt"  data-toggle="tooltip" title="Excluir"></i>
+					</a>
+					
+				</td>
 			</tr>
 				<tr>
-					<td colspan="6" th:if="${#lists.isEmpty(titulos)}">Nenhum titulo encontrado</td>
+				<td colspan="6" th:if="${#lists.isEmpty(titulos)}">Nenhum titulo encontrado</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	
+	<div layout:insert="DialogoConfirmacaoExclusao"></div>
+	
 </div>
 </section>
 </html>
